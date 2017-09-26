@@ -78,14 +78,15 @@ DEG_voom = na.omit(tempOutput)
 write.table(DEG_voom,"DEG_voom.txt",row.names=T, sep="\t",quote=F)
 
 #火山图
-jpeg(file="volcano.jpeg")
+png(file="volcano.png")
 threshold <- as.factor((DEG_voom$logFC>2 | DEG_voom$logFC< -2)&DEG_voom$adj.P.Val<0.05)
 r03 = ggplot(DEG_voom,aes(logFC,-1*log10(adj.P.Val ),colour=threshold))
+r03 <- r03 + xlab("adjust.p.value") + ylab("log2FC") + ggtitle("Volcano plot")
 r03 + geom_point()
 dev.off()
 
 #热图
-jpeg(file="heatmap.jpeg")
+png(file="heatmap.png")
 pheatmap(expData,fontsize=9, fontsize_row=6, labRow=F)
 dev.off()
 
